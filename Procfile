@@ -1,0 +1,1 @@
+web: gunicorn mvmnt.wsgi
