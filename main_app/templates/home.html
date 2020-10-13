@@ -94,20 +94,25 @@ function draw() {
       })
       .then(
         (data) => {
-          var djangoFormData = newFormData();
-          djangoFormData.append("url",data.url)
+          console.log('csrf',"{{csrf_token}}")
+          var djangoFormData = new FormData();
+          djangoFormData.append("url",data.url);
+          // djangoFormData.append("CSRF", "{{csrf_token}}")
           fetch(
-          'https://localhost:8000/videos/create',
-          {
-            method: "POST",
-            body: djangoFormData
-          }.then((response) => {
-            return response.json()
-          })
+          'http://localhost:8000/videos/create/',
+            {
+            method: 'POST',
+            mode: 'same-origin',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'X-CSRFToken': "{{csrf_token}}"
+            },
+            body: djangoFormData,
+          }
         )
         }
         
-        // this is where I need to call my VideoCreate view.
       )
     })
   }
