@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from .models import Video
-
+import json
 
 # Create your views here.
 def home(request):
@@ -56,7 +56,11 @@ def signup(request):
 
 # # create video after user submits in p5.js
 def videos_create(request):
-  print(request)
+  form_data = json.loads(request.body)
+  url = form_data['url']
+  video = Video.objects.create(url=url,user=request.user)
+  video.save()
+  # redirect user to the view of their videos
   return
 
 

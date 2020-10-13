@@ -96,8 +96,10 @@ function draw() {
         (data) => {
           console.log('csrf',"{{csrf_token}}")
           var djangoFormData = new FormData();
-          djangoFormData.append("url",data.url);
-          // djangoFormData.append("CSRF", "{{csrf_token}}")
+          // djangoFormData.append('url', data.url);
+          djangoFormData.url = data.url
+          console.log(data.url)
+          console.log(djangoFormData)
           fetch(
           'http://localhost:8000/videos/create/',
             {
@@ -108,7 +110,9 @@ function draw() {
               'Content-Type': 'application/json',
               'X-CSRFToken': "{{csrf_token}}"
             },
-            body: djangoFormData,
+            // body: JSON.stringify(djangoFormData),
+            body: JSON.stringify({'url': data.url})
+            // body: djangoFormData
           }
         )
         }
