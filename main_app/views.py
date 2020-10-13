@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import ListView, DetailView
 import uuid
-# import boto3
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -42,28 +41,29 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-  # # videos views
+# # videos views
 
-  # # get private videos
-  # def videos_index(request):
-  #   videos = Video.objects.filter(user=request.user)
-  #   return render(request, 'videos/private_index.html', {'videos' : videos})
-  
-  # # get public videos
-  # @login_required
-  # def videos_index(request):
-  #   videos = Video.objects.filter(user=request.user)
-  #   return render(request, 'videos/videos_index.html', {'videos' : videos})
+# # get private videos
+# def videos_index(request):
+#   videos = Video.objects.filter(user=request.user)
+#   return render(request, 'videos/private_index.html', {'videos' : videos})
 
-  # # create video after user submits in p5.js
-  # class VideoCreate(LoginRequiredMixin, CreateView):
-  #   model = Video
-  #   # fields = [] , what fields?
+# # get public videos
+# @login_required
+# def videos_index(request):
+#   videos = Video.objects.filter(user=request.user)
+#   return render(request, 'videos/videos_index.html', {'videos' : videos})
 
-  # class VideoUpdate(LoginRequiredMixin, UpdateView):
-  #   model = Video
-  #   # fields = [] , what fields!?
+# # create video after user submits in p5.js
+def videos_create(request):
+  print(request)
+  return
 
-  # class VideoDelete(LoginRequiredMixin, DeleteView):
-  #   model = Video
-  #   # success_url = '/' , to private video!
+
+# class VideoUpdate(LoginRequiredMixin, UpdateView):
+#   model = Video
+#   # fields = [] , what fields!?
+
+# class VideoDelete(LoginRequiredMixin, DeleteView):
+#   model = Video
+#   # success_url = '/' , to private video!

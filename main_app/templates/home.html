@@ -83,18 +83,35 @@ function draw() {
     videoC.then(v => {
       formData.append("file", v)
       formData.append("upload_preset", "sickfits")
-      fetch(endp, {
+      fetch(
+        endp, 
+        {
         method: "POST",
         body: formData
       })
       .then((response) => {
-        return response.text()
+        return response.json()
       })
       .then(
-        (data) => console.log(data)
+        (data) => {
+          var djangoFormData = newFormData();
+          djangoFormData.append("url",data.url)
+          fetch(
+          'https://localhost:8000/videos/create',
+          {
+            method: "POST",
+            body: djangoFormData
+          }.then((response) => {
+            return response.json()
+          })
+        )
+        }
+        
+        // this is where I need to call my VideoCreate view.
       )
     })
   }
+
 }
 </script>
 
