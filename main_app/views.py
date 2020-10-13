@@ -18,6 +18,9 @@ def home(request):
 def gallery(request):
   return render(request, 'gallery.html')
 
+def private_gallery(request):
+  return render(request, 'private_gallery.html')
+
 
 def signup(request):
   error_message = ''

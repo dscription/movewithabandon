@@ -67,6 +67,12 @@ function draw() {
   videoWriter.addFrame(canvas)
 
   if (secondsElapsed == 5) {
+    // get access to the django user object or any other object inside of javascript.
+    // var user = "{{user}}"
+    // console.log('user object', user)
+
+
+
     let videoC = videoWriter.complete();
 
     var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
