@@ -30,7 +30,7 @@ def signup(request):
       user = form.save()
       # This is how we log a user in via code
       login(request, user)
-      return redirect('index')
+      return redirect('home')
     else:
       error_message = 'Invalid sign up - try again'
   # A bad POST or a GET request, so render signup.html with an empty form
@@ -39,28 +39,28 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 
-  # videos views
+  # # videos views
 
-  # get private videos
-  def videos_index(request):
-    videos = Video.objects.filter(user=request.user)
-    return render(request, 'videos/private_index.html', {'videos' : videos})
+  # # get private videos
+  # def videos_index(request):
+  #   videos = Video.objects.filter(user=request.user)
+  #   return render(request, 'videos/private_index.html', {'videos' : videos})
   
-  # get public videos
-  @login_required
-  def videos_index(request):
-    videos = Video.objects.filter(user=request.user)
-    return render(request, 'videos/videos_index.html', {'videos' : videos})
+  # # get public videos
+  # @login_required
+  # def videos_index(request):
+  #   videos = Video.objects.filter(user=request.user)
+  #   return render(request, 'videos/videos_index.html', {'videos' : videos})
 
-  # create video after user submits in p5.js
-  class VideoCreate(LoginRequiredMixin, CreateView):
-    model = Video
-    # fields = [] , what fields?
+  # # create video after user submits in p5.js
+  # class VideoCreate(LoginRequiredMixin, CreateView):
+  #   model = Video
+  #   # fields = [] , what fields?
 
-  class VideoUpdate(LoginRequiredMixin, UpdateView):
-    model = Video
-    # fields = [] , what fields!?
+  # class VideoUpdate(LoginRequiredMixin, UpdateView):
+  #   model = Video
+  #   # fields = [] , what fields!?
 
-  class VideoDelete(LoginRequiredMixin, DeleteView):
-    model = Video
-    # success_url = '/' , to private video!
+  # class VideoDelete(LoginRequiredMixin, DeleteView):
+  #   model = Video
+  #   # success_url = '/' , to private video!
