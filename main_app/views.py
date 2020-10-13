@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
+from .models import Video
 
 
 # Create your views here.
@@ -36,3 +37,30 @@ def signup(request):
   form = UserCreationForm()
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
+
+
+  # videos views
+
+  # get private videos
+  def videos_index(request):
+    videos = Video.objects.filter(user=request.user)
+    return render(request, 'videos/private_index.html', {'videos' : videos})
+  
+  # get public videos
+  @login_required
+  def videos_index(request):
+    videos = Video.objects.filter(user=request.user)
+    return render(request, 'videos/videos_index.html', {'videos' : videos})
+
+  # create video after user submits in p5.js
+  class VideoCreate(LoginRequiredMixin, CreateView):
+    model = Video
+    # fields = [] , what fields?
+
+  class VideoUpdate(LoginRequiredMixin, UpdateView):
+    model = Video
+    # fields = [] , what fields!?
+
+  class VideoDelete(LoginRequiredMixin, DeleteView):
+    model = Video
+    # success_url = '/' , to private video!
