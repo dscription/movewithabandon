@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>Welcome to your private gallery!</h1>
+{% for video in videos %}
+<video  class="responseive-video" controls>
+  <source src="{{video.url}}"  type="video/webm">
+</video>
+{% endfor %}
+
+
+{% endblock %}

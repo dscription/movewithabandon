@@ -4,7 +4,7 @@ from .import views
 urlpatterns =[
   path('', views.home, name='home'),
   path('gallery', views.gallery, name='gallery'),
-  path('private_gallery', views.private_gallery, name='private_gallery'),
+  path('private_index/', views.private_index, name='private_index'),
   path('accounts/signup/', views.signup, name='signup'),
   # videos views
   # path('videos/', views.videos_index, name='index'),

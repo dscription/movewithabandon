@@ -43,14 +43,15 @@ def signup(request):
 
 # # videos views
 
-# # get private videos
-# def videos_index(request):
-#   videos = Video.objects.filter(user=request.user)
-#   return render(request, 'videos/private_index.html', {'videos' : videos})
+# get private videos
+# @login_required
+def private_index(request):
+  print('private index hit')
+  videos = Video.objects.filter(user=request.user)
+  return render(request, 'videos/private_index.html', {'videos' : videos})
 
 # # get public videos
-# @login_required
-# def videos_index(request):
+# def index(request):
 #   videos = Video.objects.filter(user=request.user)
 #   return render(request, 'videos/videos_index.html', {'videos' : videos})
 
@@ -60,8 +61,8 @@ def videos_create(request):
   url = form_data['url']
   video = Video.objects.create(url=url,user=request.user)
   video.save()
-  # redirect user to the view of their videos
-  return
+  return render(request, 'videos/private_index.html')
+  # return redirect('private_index')
 
 
 # class VideoUpdate(LoginRequiredMixin, UpdateView):
