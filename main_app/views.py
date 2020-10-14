@@ -43,26 +43,26 @@ def signup(request):
 
 # # videos views
 
-# get private videos
 # @login_required
 def private_index(request):
   print('private index hit')
   videos = Video.objects.filter(user=request.user)
   return render(request, 'videos/private_index.html', {'videos' : videos})
 
-# # get public videos
-# def index(request):
-#   videos = Video.objects.filter(user=request.user)
-#   return render(request, 'videos/videos_index.html', {'videos' : videos})
 
-# # create video after user submits in p5.js
+def videos_index(request):
+  print('public index hit')
+  videos = Video.objects.all()
+  print(videos)
+  return render(request, 'videos/videos_index.html', {'videos' : videos})
+
+
 def videos_create(request):
   form_data = json.loads(request.body)
   url = form_data['url']
   video = Video.objects.create(url=url,user=request.user)
   video.save()
   return render(request, 'videos/private_index.html')
-  # return redirect('private_index')
 
 
 # class VideoUpdate(LoginRequiredMixin, UpdateView):

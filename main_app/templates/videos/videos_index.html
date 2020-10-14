@@ -2,14 +2,11 @@
 {% load static %}
 {% block content %}
 
-<h1>Welcome to your private gallery!</h1>
-<!-- <video controls width="250">
-
-  <source src="/media/cc0-videos/flower.webm"
-          type="video/webm">
-
-
-
-</video> -->
+<h1>Welcome to the public gallery!</h1>
+{% for video in videos %}
+<video  class="responseive-video" controls>
+  <source src="{{video.url}}"  type="video/webm">
+</video>
+{% endfor %}
 
 {% endblock %}

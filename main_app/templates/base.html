@@ -27,7 +27,7 @@
           Move With Abandon</a></li>
         </ul>
         <ul class="right">
-          <li><a href="{% url 'gallery' %}">Public Gallery</a></li>
+          <li><a href="{% url 'index' %}">Public Gallery</a></li>
           {% if user.is_authenticated %}
             <li><a href="{% url 'private_index' %}">Private Gallery</a></li>
           {% else %}
