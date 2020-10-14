@@ -47,7 +47,6 @@ def signup(request):
 def private_index(request):
   print('private index hit')
   videos = Video.objects.filter(user=request.user)
-  print('-----videos------', videos)
   return render(request, 'videos/private_index.html', {'videos' : videos})
 
 
@@ -63,19 +62,24 @@ def videos_create(request):
   video = Video.objects.create(url=url,user=request.user)
   video.save()
   return render(request, 'videos/private_index.html')
+  # return
 
 def videos_delete(request,pk):
-  print('----------------------------delete hit!')
+  video = Video.objects.filter(id = pk)
+  video.delete()
   print(pk)
   # delete video by video id
   # redirect back to private gallery
-  return
+  return redirect('private_index')
 
 def videos_update(request,pk):
+  print('---update video hit---')
   video = Video.objects.filter(id = pk)
-  print(video)
-  video.isPrivate = not video.isPrivate
-  print('-----got a video to update------', video)
+  for vid in video:
+    vid.isPrivate = not vid.isPrivate
+    vid.save()
+    print('is it private?------',vid.isPrivate)
+  
   # get video by id
   # toggle ifPrivate
-  return
+  return redirect('private_index')

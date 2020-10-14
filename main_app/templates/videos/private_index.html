@@ -9,10 +9,10 @@
   
   <a class='btn red' href="{% url 'videos_delete' video.id %}">Delete</a>
   <a class='btn green' href="{% url 'videos_update' video.id %}">
-    {% if video.isPrivate %}
-    Make Public
+    {% if video.isPrivate == True %}
+      Make Public
     {% else %}
-    Make Private
+      Make Private
     {% endif %}
     </a>
 <!-- </form> -->
