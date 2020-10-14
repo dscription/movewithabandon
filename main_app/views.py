@@ -47,6 +47,7 @@ def signup(request):
 def private_index(request):
   print('private index hit')
   videos = Video.objects.filter(user=request.user)
+  print('-----videos------', videos)
   return render(request, 'videos/private_index.html', {'videos' : videos})
 
 
