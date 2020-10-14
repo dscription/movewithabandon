@@ -13,10 +13,10 @@ var capturer = new CCapture({
 });
 
 let canvas;
-
 function setup() {
   let p5canvas = createCanvas(400, 400);
   canvas = p5canvas.canvas
+
   // start capture 
   capturer.start()
 }
@@ -28,11 +28,8 @@ function draw() {
     ellipse(mouseX,mouseY,20)
   }
 
-  start(secondsElapsed)
-}
-
-function start() {
   if (secondsElapsed >= 5) {
+    console.log('5 seconds elapsed')
     capturer.stop()
     // capturer.save();
     // custom save, will get a blob in the callback
@@ -40,4 +37,7 @@ function start() {
       console.log(blob)
     } );
   }
+    
+  console.log('capturing')
+  capturer.capture(canvas)
 }
