@@ -4,10 +4,21 @@
 
 <h1>Welcome to your private gallery!</h1>
 {% for video in videos %}
+<!-- <form action="" method="POST"> -->
+  {% csrf_token %}
+  
+  <a class='btn red' href="{% url 'videos_delete' video.id %}">Delete</a>
+  <a class='btn green' href="{% url 'videos_update' video.id %}">
+    {% if video.isPrivate %}
+    Make Public
+    {% else %}
+    Make Private
+    {% endif %}
+    </a>
+<!-- </form> -->
 <video  class="responseive-video" controls>
   <source src="{{video.url}}"  type="video/webm">
 </video>
 {% endfor %}
-
 
 {% endblock %}

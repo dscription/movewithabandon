@@ -53,7 +53,6 @@ def private_index(request):
 def videos_index(request):
   print('public index hit')
   videos = Video.objects.all()
-  print(videos)
   return render(request, 'videos/videos_index.html', {'videos' : videos})
 
 
@@ -64,11 +63,18 @@ def videos_create(request):
   video.save()
   return render(request, 'videos/private_index.html')
 
+def videos_delete(request,pk):
+  print('----------------------------delete hit!')
+  print(pk)
+  # delete video by video id
+  # redirect back to private gallery
+  return
 
-# class VideoUpdate(LoginRequiredMixin, UpdateView):
-#   model = Video
-#   # fields = [] , what fields!?
-
-# class VideoDelete(LoginRequiredMixin, DeleteView):
-#   model = Video
-#   # success_url = '/' , to private video!
+def videos_update(request,pk):
+  video = Video.objects.filter(id = pk)
+  print(video)
+  video.isPrivate = not video.isPrivate
+  print('-----got a video to update------', video)
+  # get video by id
+  # toggle ifPrivate
+  return
