@@ -111,7 +111,6 @@ function startTimer() {
 function mouseClicked() {
   started = true;
   mClicked++
-  console.log(mClicked)
   if (mClicked === 1) {
     startTimer()
   }
@@ -119,10 +118,6 @@ function mouseClicked() {
 
 
 function draw() {
-  console.log('-------started-------', started)
-  console.log('------finished-------', finished)
-  console.log('----timer', timer)
-
 
   // ML5 Experiments Go Here
   image(video, 0, 0, width, height);
@@ -131,7 +126,6 @@ function draw() {
 
   if(!captured) {
     drawText(notCaptured)
-    console.log('---not captured---')
   }
 
   if (captured && !started && !finished) {
@@ -154,7 +148,6 @@ function draw() {
   if(timer === limit) {
     started = false;
     finished = true;
-    console.log('-------time is up-----',finished)
   }
 
   if (finished) {
@@ -173,6 +166,7 @@ var cloudName = 'dct4e2zsl'
 var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
 var formData = new FormData();
 videoC.then(v => {
+  console.log('------------sending video!--------')
   formData.append("file", v)
   formData.append("upload_preset", "sickfits")
   fetch(
@@ -182,10 +176,12 @@ videoC.then(v => {
     body: formData
   })
   .then((response) => {
+    console.log('------------got a response!!!-------- ')
     return response.json()
   })
   .then(
     (data) => {
+      console.log('------creating video in db--------')
       var djangoFormData = new FormData();
       djangoFormData.url = data.url
       fetch(
