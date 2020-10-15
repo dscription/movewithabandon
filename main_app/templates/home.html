@@ -2,8 +2,58 @@
 {% load static %}
 {% block content %}
 
-<h1>Hello!</h1>
-<script >
+
+<div class="row">
+  <div class="col s12">
+    <h1>Welcome to Move With Abandon</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad quas dolore aliquam totam voluptatibus ratione, perspiciatis cumque eveniet alias doloribus reiciendis laudantium deleniti soluta, quos tenetur aliquid cum rem exercitationem!</p>
+  </div>
+</div>
+<div class="row" id='links'>
+  <div class="col s4">
+    <a href="{% url 'drawing' %}">
+      <div class="card small exp valign-wrapper">
+        <span class="card-title ">
+          Drawing
+        </span>
+      </div>
+    </a>
+  </div>
+  <div class="col s4">
+    <a href="{% url 'control' %}">
+      <div class="card small exp valign-wrapper">
+        <span class="card-title">
+          Control
+        </span>
+      </div>
+    </a>
+  </div>
+  <div class="col s4">
+    <a href="{% url 'touch' %}">
+      <div class="card small exp valign-wrapper">
+        <span class="card-title">
+          Touch
+        </span>
+    </div>
+    </a>
+    
+  </div>
+</div>
+
+<h1>Public Gallery</h1>
+{% for video in videos %}
+  <video width="250" height="250" class="responseive-video" controls>
+    <source src="{{video.url}}"  type="video/webm">
+  </video>
+{% endfor %}
+
+
+
+
+
+
+
+<!-- <script >
 // p5.disableFriendlyErrors = true;
 
 // Setup more joint and posenet variables here
@@ -99,6 +149,6 @@ function draw() {
   }
   // Write out video and make Fetch request ::: END
 }
-</script>
+</script> -->
 
 {% endblock %}

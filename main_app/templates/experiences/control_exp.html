@@ -2,7 +2,8 @@
 {% load static %}
 {% block content %}
 
-<h1>Hello!</h1>
+<h1> This is the Control Experience</h1>
+<p>Instructions for Control</p>
 <script >
 // p5.disableFriendlyErrors = true;
 
@@ -76,52 +77,52 @@ function draw() {
 
   videoWriter.addFrame(canvas)
   // Write out video and make Fetch request ::: START
-  if (secondsElapsed == 5) {
-    let videoC = videoWriter.complete();
+  // if (secondsElapsed == 5) {
+  //   let videoC = videoWriter.complete();
 
-    var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
-    var cloudName = 'dct4e2zsl'
-    var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
-    var formData = new FormData();
-    videoC.then(v => {
-      formData.append("file", v)
-      formData.append("upload_preset", "sickfits")
-      fetch(
-        endp, 
-        {
-        method: "POST",
-        body: formData
-      })
-      .then((response) => {
-        return response.json()
-      })
-      .then(
-        (data) => {
-          var djangoFormData = new FormData();
-          djangoFormData.url = data.url
-          fetch(
-          'http://localhost:8000/videos/create/',
-            {
-            method: 'POST',
-            mode: 'same-origin',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'X-CSRFToken': "{{csrf_token}}"
-            },
-            body: JSON.stringify({'url': data.url})
-          }
-        )
-        .then(response => 
-        {
-          console.log('hit')
-          window.location.replace('http://localhost:8000/videos/private_index/')
-        }
-        )
-        }
-      )
-    })
-  }
+  //   var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
+  //   var cloudName = 'dct4e2zsl'
+  //   var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
+  //   var formData = new FormData();
+  //   videoC.then(v => {
+  //     formData.append("file", v)
+  //     formData.append("upload_preset", "sickfits")
+  //     fetch(
+  //       endp, 
+  //       {
+  //       method: "POST",
+  //       body: formData
+  //     })
+  //     .then((response) => {
+  //       return response.json()
+  //     })
+  //     .then(
+  //       (data) => {
+  //         var djangoFormData = new FormData();
+  //         djangoFormData.url = data.url
+  //         fetch(
+  //         'http://localhost:8000/videos/create/',
+  //           {
+  //           method: 'POST',
+  //           mode: 'same-origin',
+  //           headers: {
+  //             'Accept': 'application/json',
+  //             'Content-Type': 'application/json',
+  //             'X-CSRFToken': "{{csrf_token}}"
+  //           },
+  //           body: JSON.stringify({'url': data.url})
+  //         }
+  //       )
+  //       .then(response => 
+  //       {
+  //         console.log('hit')
+  //         window.location.replace('http://localhost:8000/videos/private_index/')
+  //       }
+  //       )
+  //       }
+  //     )
+  //   })
+  // }
   // Write out video and make Fetch request ::: END
 }
 

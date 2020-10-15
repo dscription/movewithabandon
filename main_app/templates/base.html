@@ -3,8 +3,9 @@
 <html lang="en">
 <head>
   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/p5.min.js"></script> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.6.1/addons/p5.dom.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.1.9/p5.min.js"></script>
+
+  <!-- <script src="https://cdn.https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/addons/"></script> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
   
@@ -31,7 +32,6 @@
           Move With Abandon</a></li>
         </ul>
         <ul class="right">
-          <li><a href="{% url 'index' %}">Public Gallery</a></li>
           {% if user.is_authenticated %}
             <li><a href="{% url 'private_index' %}">Private Gallery</a></li>
             <li><a href="{% url 'logout' %}">Log Out</a></li>

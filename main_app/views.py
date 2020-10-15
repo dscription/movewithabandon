@@ -12,14 +12,8 @@ import json
 
 # Create your views here.
 def home(request):
-  return render(request, 'home.html')
-
-def gallery(request):
-  return render(request, 'gallery.html')
-
-def private_gallery(request):
-  return render(request, 'private_gallery.html')
-
+  videos = Video.objects.all()
+  return render(request, 'home.html', {'videos' : videos})
 
 def signup(request):
   error_message = ''
@@ -40,20 +34,12 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
-
 # # videos views
-
 # @login_required
 def private_index(request):
   print('private index hit')
   videos = Video.objects.filter(user=request.user)
   return render(request, 'videos/private_index.html', {'videos' : videos})
-
-
-def videos_index(request):
-  print('public index hit')
-  videos = Video.objects.all()
-  return render(request, 'videos/videos_index.html', {'videos' : videos})
 
 
 def videos_create(request):
@@ -62,24 +48,24 @@ def videos_create(request):
   video = Video.objects.create(url=url,user=request.user)
   video.save()
   return render(request, 'videos/private_index.html')
-  # return
 
 def videos_delete(request,pk):
   video = Video.objects.filter(id = pk)
   video.delete()
-  print(pk)
-  # delete video by video id
-  # redirect back to private gallery
   return redirect('private_index')
 
 def videos_update(request,pk):
-  print('---update video hit---')
   video = Video.objects.filter(id = pk)
   for vid in video:
     vid.isPrivate = not vid.isPrivate
     vid.save()
-    print('is it private?------',vid.isPrivate)
-  
-  # get video by id
-  # toggle ifPrivate
   return redirect('private_index')
+
+def drawing(request):
+  return render(request, 'experiences/drawing_exp.html')
+
+def touch(request):
+  return render(request, 'experiences/touch_exp.html')
+
+def control(request):
+  return render(request, 'experiences/control_exp.html')
