@@ -35,13 +35,13 @@ def signup(request):
   return render(request, 'registration/signup.html', context)
 
 # # videos views
-# @login_required
+@login_required
 def private_index(request):
   print('private index hit')
   videos = Video.objects.filter(user=request.user)
   return render(request, 'videos/private_index.html', {'videos' : videos})
 
-
+@login_required
 def videos_create(request):
   form_data = json.loads(request.body)
   url = form_data['url']
@@ -49,11 +49,13 @@ def videos_create(request):
   video.save()
   return render(request, 'videos/private_index.html')
 
+@login_required
 def videos_delete(request,pk):
   video = Video.objects.filter(id = pk)
   video.delete()
   return redirect('private_index')
 
+@login_required
 def videos_update(request,pk):
   video = Video.objects.filter(id = pk)
   for vid in video:
@@ -61,11 +63,14 @@ def videos_update(request,pk):
     vid.save()
   return redirect('private_index')
 
+@login_required
 def drawing(request):
   return render(request, 'experiences/drawing_exp.html')
 
+@login_required
 def touch(request):
   return render(request, 'experiences/touch_exp.html')
 
+@login_required
 def control(request):
   return render(request, 'experiences/control_exp.html')
