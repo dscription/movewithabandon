@@ -188,7 +188,8 @@ function draw() {
           'http://moremvmnt.herokuapp.com/videos/create/',
             {
             method: 'POST',
-            mode: 'same-origin',
+            // mode: 'same-origin',
+            mode: 'no-cors',
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
