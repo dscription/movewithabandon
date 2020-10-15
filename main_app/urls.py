@@ -12,5 +12,6 @@ urlpatterns =[
   path('videos/<int:pk>/delete', views.videos_delete,name='videos_delete'),
   path('experience/drawing', views.drawing, name='drawing'),
   path('experience/touch', views.touch, name='touch'),
-  path('experience/control', views.control, name='control')
+  path('experience/control', views.control, name='control')   
+  
 ]
