@@ -84,6 +84,8 @@ let captured
 let started = false;
 let finished = false;
 let mClicked = 0;
+let finishedLimit = 0;
+
 
 function capturedOn() {
   captured = true
@@ -156,59 +158,66 @@ function draw() {
   }
 
   if (finished) {
+    finishedLimit++;
     drawText(goodbyeMsg) // or black screen
-    // send fetch request and redirect
-    console.log('---sending fetch request----')
 
-    // Write out video and make Fetch request ::: START
-    let videoC = videoWriter.complete();
+    if (finishedLimit === 1) {
+// send fetch request and redirect
+console.log('---sending fetch request----')
 
-    var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
-    var cloudName = 'dct4e2zsl'
-    var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
-    var formData = new FormData();
-    videoC.then(v => {
-      formData.append("file", v)
-      formData.append("upload_preset", "sickfits")
+// Write out video and make Fetch request ::: START
+let videoC = videoWriter.complete();
+
+var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
+var cloudName = 'dct4e2zsl'
+var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
+var formData = new FormData();
+videoC.then(v => {
+  formData.append("file", v)
+  formData.append("upload_preset", "sickfits")
+  fetch(
+    endp, 
+    {
+    method: "POST",
+    body: formData
+  })
+  .then((response) => {
+    return response.json()
+  })
+  .then(
+    (data) => {
+      var djangoFormData = new FormData();
+      djangoFormData.url = data.url
       fetch(
-        endp, 
+      // 'http://localhost:8000/videos/create/',
+      'https://moremvmnt.herokuapp.com/videos/create/',
         {
-        method: "POST",
-        body: formData
-      })
-      .then((response) => {
-        return response.json()
-      })
-      .then(
-        (data) => {
-          var djangoFormData = new FormData();
-          djangoFormData.url = data.url
-          fetch(
-          // 'http://localhost:8000/videos/create/',
-          'https://moremvmnt.herokuapp.com/videos/create/',
-            {
-            method: 'POST',
-            // mode: 'same-origin',
-            mode: 'no-cors',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'X-CSRFToken': "{{csrf_token}}"
-            },
-            body: JSON.stringify({'url': data.url})
-          }
-        )
-        .then(response => 
-        {
-          console.log('hit')
-          // window.location.replace('http://localhost:8000/videos/private_index/')
-          window.location.replace('https://moremvmnt.herokuapp.com/videos/private_index/')
-        }
-        )
-        }
-      )
-    })
-    // Write out video and make Fetch request ::: END
+        method: 'POST',
+        // mode: 'same-origin',
+        mode: 'no-cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': "{{csrf_token}}"
+        },
+        body: JSON.stringify({'url': data.url})
+      }
+    )
+    .then(response => 
+    {
+      console.log('hit')
+      // window.location.replace('http://localhost:8000/videos/private_index/')
+      window.location.replace('https://moremvmnt.herokuapp.com/videos/private_index/')
+    }
+    )
+    }
+  )
+})
+// Write out video and make Fetch request ::: END
+
+
+    }
+    
   }
 }
 
