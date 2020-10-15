@@ -4,10 +4,19 @@
 
 
 <div class="row">
-  <div class="col s12">
+  <div class="col s12 center-align">
     <h1>Welcome to Move With Abandon</h1>
     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad quas dolore aliquam totam voluptatibus ratione, perspiciatis cumque eveniet alias doloribus reiciendis laudantium deleniti soluta, quos tenetur aliquid cum rem exercitationem!</p>
   </div>
+  
+  {% if not user.is_authenticated %}
+    <div class="center-align">
+      <a class="btn" href="{% url 'signup' %}">Sign Up</a>
+      <a class="btn" href="{% url 'login' %}">Log In</a>
+    </div>
+  {% endif %}
+  
+
 </div>
 <div class="row" id='links'>
   <div class="col s4">
@@ -46,109 +55,5 @@
     <source src="{{video.url}}"  type="video/webm">
   </video>
 {% endfor %}
-
-
-
-
-
-
-
-<!-- <script >
-// p5.disableFriendlyErrors = true;
-
-// Setup more joint and posenet variables here
-let frameRate = 30
-
-
-
-let canvas;
-
-// setup Webmwriter
-var videoWriter = new WebMWriter({
-    quality: 0.8,    // WebM image quality from 0.0 (worst) to 0.99999 (best), 1.00 (VP8L lossless) is not supported
-    fileWriter: null, // FileWriter in order to stream to a file instead of buffering to memory (optional)
-    fd: null,         // Node.js file handle to write to instead of buffering to memory (optional)
-
-    // You must supply one of:
-    frameDuration: null, // Duration of frames in milliseconds
-    frameRate: 30,     // Number of frames per second
-
-    transparent: false,      // True if an alpha channel should be included in the video
-    alphaQuality: undefined, // Allows you to set the quality level of the alpha channel separately.
-                             // If not specified this defaults to the same value as `quality`.
-});
-
-function setup() {
-  let p5canvas = createCanvas(400, 400);
-  canvas = p5canvas.canvas
-}
-
-function draw() {
-  // Start Counting Seconds Elapsed
-  let secondsElapsed = frameCount/frameRate;
-
-  // ML5 Experiments Go Here
-  if(mouseIsPressed){
-    ellipse(mouseX,mouseY,20)
-  }
-
-
-
-
-  
-
-
-
-  videoWriter.addFrame(canvas)
-  // Write out video and make Fetch request ::: START
-  if (secondsElapsed == 5) {
-    let videoC = videoWriter.complete();
-
-    var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
-    var cloudName = 'dct4e2zsl'
-    var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
-    var formData = new FormData();
-    videoC.then(v => {
-      formData.append("file", v)
-      formData.append("upload_preset", "sickfits")
-      fetch(
-        endp, 
-        {
-        method: "POST",
-        body: formData
-      })
-      .then((response) => {
-        return response.json()
-      })
-      .then(
-        (data) => {
-          var djangoFormData = new FormData();
-          djangoFormData.url = data.url
-          fetch(
-          'http://localhost:8000/videos/create/',
-            {
-            method: 'POST',
-            mode: 'same-origin',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              'X-CSRFToken': "{{csrf_token}}"
-            },
-            body: JSON.stringify({'url': data.url})
-          }
-        )
-        .then(response => 
-        {
-          console.log('hit')
-          // window.location.replace('http://localhost:8000/videos/private_index/')
-        }
-        )
-        }
-      )
-    })
-  }
-  // Write out video and make Fetch request ::: END
-}
-</script> -->
 
 {% endblock %}
