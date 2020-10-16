@@ -1,0 +1,225 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="center-align">
+  <h1 class="center-align"> This is the Drawing Experience</h1>
+  <p class="center-align">Instructions for Drawing</p>
+</div>
+<script >
+p5.disableFriendlyErrors = true;
+
+// PoseNet and ML5 Variables
+let poseNet;
+let poses = [];
+let skeletons = [];
+// Right Wrist
+let rightWristX;
+let rightWristY;
+// Left Wrist
+let leftWristX;
+let leftWristY;
+
+// p5 variables
+let frameRate = 30
+let canvas;
+let video;
+let pg;
+
+//p5 counter variables
+let timer = 0;
+let limit = 25
+let countdownDuration = 10
+
+
+// WebMWriter
+var videoWriter = new WebMWriter({
+    quality: 0.9,
+    fileWriter: null,
+    fd: null,
+    frameDuration: null, 
+    frameRate: 30,
+    transparent: false,
+    alphaQuality: undefined,
+});
+
+function setup() {
+
+  // Canvas
+  let p5canvas = createCanvas(640, 480);
+  canvas = p5canvas.canvas;
+  angleMode(DEGREES);
+
+  // Video
+  video = createCapture(VIDEO, capturedOn);
+  video.size(width, height);
+
+  // Create Graphics
+  pg = createGraphics(width, height);
+  // pg.clear();
+
+  // PoseNet Instance with single user detection
+  poseNet = ml5.poseNet(video, "single", modelReady);
+  poseNet.on("pose", function (results) {
+    poses = results;
+  });
+
+  // Hide the video element, and just show the canvas
+  video.hide();
+
+  
+}
+
+let welcomeMsg = 'Once you begin you will have 10 seconds to setup, please make sure that your whole body fits into the screen. Click anywhere to begin.'
+let goodbyeMsg = 'You will now be taken to your private gallery. '
+let notCaptured= 'please make sure to allow your video'
+
+function drawText(t) {
+  textSize(32);
+  text(t, 10,30) // use width and height to center text
+  fill(0, 102, 152)
+}
+
+let captured
+let started = false;
+let finished = false;
+let mClicked = 0;
+let finishedLimit = 0;
+
+
+function capturedOn() {
+  captured = true
+  if (captured) {
+    console.log('captured')
+  }
+}
+
+function timeIt() {
+  timer += 1;
+
+  // stop interval once counter hits X seconds
+  if (timer === limit) {
+    console.log('end program')
+    clearInterval(interval)
+  }
+}
+
+function startTimer() {
+    interval = setInterval(timeIt, 1000)
+}
+
+function mouseClicked() {
+  started = true;
+  mClicked++
+  if (mClicked === 1) {
+    startTimer()
+  }
+}
+
+
+function draw() {
+
+  // ML5 Experiments Go Here
+  image(video, 0, 0, width, height);
+  image(pg, 0, 0, width, height);
+
+
+  if(!captured) {
+    drawText(notCaptured)
+  }
+
+  if (captured && !started && !finished) {
+    // draw the welcome message
+    drawText(welcomeMsg) // once the user clicks the timer will begin.
+  }
+
+  if(started) {
+    if (timer < countdownDuration + 1) {
+      drawText(timer)
+    }
+
+    if (timer > countdownDuration) {
+      drawKeypoints();
+      // drawSkeleton();
+      videoWriter.addFrame(canvas)
+    }
+  }
+
+  if(timer === limit) {
+    started = false;
+    finished = true;
+  }
+
+  if (finished) {
+    finishedLimit++;
+    drawText(goodbyeMsg) // or black screen
+
+    if (finishedLimit === 1) {
+// send fetch request and redirect
+console.log('---sending fetch request----')
+
+// Write out video and make Fetch request ::: START
+let videoC = videoWriter.complete();
+
+var cl = new cloudinary.Cloudinary({cloud_name: "dct4e2zsl", secure: true});
+var cloudName = 'dct4e2zsl'
+var endp = `https://api.cloudinary.com/v1_1/${cloudName}/upload`
+var formData = new FormData();
+videoC.then(v => {
+  console.log('------------sending video!--------')
+  formData.append("file", v)
+  formData.append("upload_preset", "sickfits")
+  fetch(
+    endp, 
+    {
+    method: "POST",
+    body: formData
+  })
+  .then((response) => {
+    console.log('------------got a response!!!-------- ')
+    return response.json()
+  })
+  .then(
+    (data) => {
+      console.log('------creating video in db--------')
+      var djangoFormData = new FormData();
+      djangoFormData.url = data.url
+      fetch(
+      // 'http://localhost:8000/videos/create/',
+      'https://moremvmnt.herokuapp.com/videos/create/',
+        {
+        method: 'POST',
+        // mode: 'same-origin',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'X-CSRFToken': "{{csrf_token}}"
+        },
+        body: JSON.stringify({'url': data.url})
+      }
+    )
+    .then(response => 
+    {
+      console.log('hit')
+      console.log(response)
+      // window.location.replace('http://localhost:8000/videos/private_index/')
+      // window.location.replace('https://moremvmnt.herokuapp.com/videos/private_index/')
+    }
+    )
+    }
+  )
+})
+  }
+}
+
+function gotPoses(results) {
+  poses = results;
+}
+
+function modelReady() {
+  select("#status").html("model Loaded");
+}
+</script>
+
+{% endblock %}
