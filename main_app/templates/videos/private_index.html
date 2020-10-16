@@ -2,15 +2,15 @@
 {% load static %}
 {% block content %}
 
-<h1>Welcome to your private gallery!</h1>
+<h1 class="white-text center-align">Private gallery!</h1>
 {% for video in videos %}
   {% csrf_token %}
-  <div>
-    
-    <video  class="responseive-video" controls>
+  <div class="center-align">
+    <video width="320" height="240" class="responsive-video centered" controls>
       <source src="{{video.url}}"  type="video/webm">
     </video>
-    <div>
+  </div>
+    <div class="center-align">
       <a class='btn red' href="{% url 'videos_delete' video.id %}">Delete</a>
       <a class='btn green' href="{% url 'videos_update' video.id %}">
         {% if video.isPrivate == True %}
@@ -20,7 +20,7 @@
         {% endif %}
       </a>
     </div>
-  </div>
+    
   
 {% endfor %}
 

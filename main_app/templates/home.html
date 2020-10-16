@@ -5,39 +5,40 @@
 
 <div class="row">
   <div class="col s12 center-align">
-    <h1>Welcome to Move With Abandon</h1>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad quas dolore aliquam totam voluptatibus ratione, perspiciatis cumque eveniet alias doloribus reiciendis laudantium deleniti soluta, quos tenetur aliquid cum rem exercitationem!</p>
+    <h1 class="white-text">Movement Is...</h1>
+    <h4 class="white-text">A form of expression, communication, and relief. We each craft our own unique relationship with our bodies and how we move. Our use of and interaction with has to some extent restricted our natural ability to move freely. But with technologies like machine learning and computer vision coupled with movement and a bit of creativity, we have an opportunity to playfully explore and develope our physical, cognitive, and social abilities.</h4>
   </div>
   
   {% if not user.is_authenticated %}
     <div class="center-align">
-      <a class="btn" href="{% url 'signup' %}">Sign Up</a>
-      <a class="btn" href="{% url 'login' %}">Log In</a>
+      <a class="btn orange" href="{% url 'signup' %}">Sign Up</a>
+      <a class="btn green" href="{% url 'login' %}">Log In</a>
     </div>
   {% endif %}
-  
-
 </div>
+<h2 class="white-text center-align">Select an experiment from below</h2>
 <div class="row" id='links'>
-  <div class="col s4">
+  <div class="col s2"></div>
+  <div class="col s4 center-align">
     <a href="{% url 'drawing' %}">
-      <div class="card small exp valign-wrapper">
-        <span class="card-title ">
-          Drawing
-        </span>
+      <div class="card small exp valign-wrapper orange">
+        <div class="card-content white-text">
+          <h4>Drawing</h4>
+        </div>
       </div>
     </a>
   </div>
   <div class="col s4">
     <a href="{% url 'control' %}">
-      <div class="card small exp valign-wrapper">
-        <span class="card-title">
-          Control
-        </span>
+      <div class="card small exp valign-wrapper blue">
+        <div class="card-content white-text">
+          <h4>Control</h4>
+        </div>
       </div>
     </a>
   </div>
-  <div class="col s4">
+  <div class="col s2"></div>
+  <!-- <div class="col s4">
     <a href="{% url 'touch' %}">
       <div class="card small exp valign-wrapper">
         <span class="card-title">
@@ -45,15 +46,17 @@
         </span>
     </div>
     </a>
-    
-  </div>
+  </div> -->
 </div>
 
-<h1>Public Gallery</h1>
-{% for video in videos %}
-  <video width="250" height="250" class="responseive-video" controls>
+<h1 class="center-align white-text">Public Gallery</h1>
+<div>
+  {% for video in videos %}
+  <video width="320" height="240" class="responseive-video" controls>
     <source src="{{video.url}}"  type="video/webm">
   </video>
 {% endfor %}
+</div>
+
 
 {% endblock %}
