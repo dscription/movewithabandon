@@ -9,11 +9,12 @@ Having spent most of my professional career as a personal trainer, movement spec
 ## Technologies Used
 - HTML, CSS, JavaScript
 - p5.js
-- ccapture.js
+- WebM Converter
 - ml5.js
 - Python
 - Django
 - Postgresql
+- Cloudinary
 
 ## User Stories
 - AAU, I should be able to create an account
